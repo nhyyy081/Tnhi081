@@ -1,0 +1,37 @@
+name: 🚀 Deploy to Somee via FTP
+
+on:
+  push:
+    branches:
+      - main
+  
+  workflow_dispatch: # Cho phép chạy thủ công
+
+jobs:
+  ftp-deploy:
+    runs-on: ubuntu-latest
+    
+    # Đảm bảo environment 'production' tồn tại (nếu bạn đã dùng)
+    environment: 
+      name: production 
+
+    steps:
+      - name: 🚚 Checkout code
+        uses: actions/checkout@v4
+      
+      # *** LƯU Ý QUAN TRỌNG: THAY ĐỔI CÁC THÔNG SỐ SAU ***
+      - name: 🚀 FTP Deploy to Somee.com
+        uses: SamKirkland/FTP-Deploy-Action@v4
+        with:
+          # Các biến bí mật (Secrets) đã tạo phải đúng tên
+          server: ${{ secrets.FTP_SERVER }} 
+          username: ${{ secrets.FTP_USERNAME }} 
+          password: ${{ secrets.FTP_PASSWORD }} 
+          
+          # Đổi thành tên thư mục chứa mã nguồn/build của bạn (e.g., ./dist)
+          local-dir: ./ 
+          
+          # Kiểm tra lại đường dẫn đích trên Somee.com (thường là /, /www, hoặc /wwwroot)
+          remote-dir: / 
+          
+          log-level: verbose
