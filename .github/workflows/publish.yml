@@ -29,7 +29,7 @@ jobs:
       #     npm run build
       
       - name: 🚀 FTP Deploy to Somee.com
-        uses: SamKirkland/FTP-Deploy-Action@v4
+        uses:SamKirkland/FTP-Deploy-Action@v4
         with:
           # ĐÃ ĐƯỢC SỬA: SỬ DỤNG TÊN SECRETS CỦA BẠN
           server: ${{ secrets.FTP_HOST }} 
