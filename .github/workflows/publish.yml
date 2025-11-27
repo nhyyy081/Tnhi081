@@ -1,0 +1,45 @@
+name: 🚀 Deploy to Somee via FTP
+
+on:
+  # Kích hoạt workflow khi có push lên nhánh 'main'
+  push:
+    branches:
+      - main
+  
+  # Cho phép chạy workflow thủ công từ giao diện GitHub
+  workflow_dispatch:
+
+jobs:
+  ftp-deploy:
+    runs-on: ubuntu-latest
+    
+    environment: 
+      name: production 
+
+    steps:
+      - name: 🚚 Checkout code
+        # Lấy mã nguồn từ repo
+        uses: actions/checkout@v4
+
+      # --- BƯỚC BUILD (Nếu dự án của bạn là SPA/Front-end) ---
+      # Bỏ qua bước này nếu dự án của bạn chỉ là các file HTML/PHP tĩnh
+      # - name: 📦 Build Project (Ví dụ cho dự án Node/React/Vue)
+      #   run: |
+      #     npm install
+      #     npm run build
+      
+      - name: 🚀 FTP Deploy to Somee.com
+        uses: SamKirkland/FTP-Deploy-Action@v4
+        with:
+          # ĐÃ ĐƯỢC SỬA: SỬ DỤNG TÊN SECRETS CỦA BẠN
+          server: ${{ secrets.FTP_HOST }} 
+          username: ${{ secrets.FTP_USER }} 
+          password: ${{ secrets.FTP_PW }} 
+          
+          # Thư mục cục bộ (local) cần upload.
+          local-dir: ./ 
+          
+          # Thư mục đích (remote) trên Somee server.
+          remote-dir: / 
+          
+          log-level: verbose
