@@ -21,25 +21,26 @@ jobs:
         # Lấy mã nguồn từ repo
         uses: actions/checkout@v4
 
-      # --- BƯỚC BUILD (Nếu dự án của bạn là SPA/Front-end) ---
-      # Bỏ qua bước này nếu dự án của bạn chỉ là các file HTML/PHP tĩnh
+      # --- BƯỚC BUILD (NẾU CẦN THIẾT) ---
+      # Bỏ qua các dòng sau nếu dự án của bạn chỉ là file HTML/PHP tĩnh
       # - name: 📦 Build Project (Ví dụ cho dự án Node/React/Vue)
       #   run: |
       #     npm install
       #     npm run build
       
       - name: 🚀 FTP Deploy to Somee.com
-        uses:SamKirkland/FTP-Deploy-Action@v4
+        # CẤU HÌNH ĐÃ SỬA LỖI CÚ PHÁP
+        uses: SamKirkland/FTP-Deploy-Action@v4
         with:
-          # ĐÃ ĐƯỢC SỬA: SỬ DỤNG TÊN SECRETS CỦA BẠN
+          # SỬ DỤNG TÊN SECRETS BẠN ĐÃ ĐẶT
           server: ${{ secrets.FTP_HOST }} 
           username: ${{ secrets.FTP_USER }} 
           password: ${{ secrets.FTP_PW }} 
           
-          # Thư mục cục bộ (local) cần upload.
+          # THƯ MỤC NGUỒN: Thay đổi nếu bạn có thư mục build (e.g., ./dist)
           local-dir: ./ 
           
-          # Thư mục đích (remote) trên Somee server.
+          # THƯ MỤC ĐÍCH: Kiểm tra lại đường dẫn đích trên Somee.com
           remote-dir: / 
           
           log-level: verbose
